@@ -20,7 +20,10 @@
 #    Catedra Sistemas Operativos II
 # ------------------------------------------------------------------------------
 demo1_estructura() {
-
+    mkdir -p soluciones_demo/proyecto/{src,data,docs}
+    touch soluciones_demo/proyecto/src/main.sh
+    touch soluciones_demo/proyecto/docs/autor.txt
+    echo "Catedra Sistemas Operativos II" > soluciones_demo/proyecto/docs/autor.txt
 }
 
 # ------------------------------------------------------------------------------
@@ -33,7 +36,8 @@ demo1_estructura() {
 #    y guardar únicamente el número en 'soluciones_demo/total_errores_500.txt'.
 # ------------------------------------------------------------------------------
 demo2_redirecciones() {
-
+    tail -n 10 datos/accesos.log > soluciones_demo/ultimos_accesos.log
+    grep "500" datos/accesos.log | wc -l > soluciones_demo/total_errores_500.txt
 }
 
 # ------------------------------------------------------------------------------
@@ -46,7 +50,7 @@ demo2_redirecciones() {
 # 3. Guardar el resultado en 'soluciones_demo/endpoints_unicos.txt'.
 # ------------------------------------------------------------------------------
 demo3_tuberias() {
-
+    cut -d ' ' -f4 datos/accesos.log | sort -u > soluciones_demo/endpoints_unicos.txt
 }
 
 # ------------------------------------------------------------------------------
@@ -60,7 +64,7 @@ demo3_tuberias() {
 # 4. Guardar la salida en 'soluciones_demo/nodos_online.txt'.
 # ------------------------------------------------------------------------------
 demo4_inventario_csv() {
-
+    grep "ONLINE" datos/inventario.csv | cut -d ',' -f2,3 | sort > soluciones_demo/nodos_online.txt
 }
 
 # ------------------------------------------------------------------------------
@@ -75,6 +79,14 @@ demo4_inventario_csv() {
 # 3. Asignar permisos de ejecución (chmod +x).
 # ------------------------------------------------------------------------------
 demo5_script_monitoreo() {
+    cat << 'EOF' > soluciones_demo/check_health.sh
+#!/usr/bin/env bash
+echo "=== ESTADO DE SALUD DEL NODO ==="
+date
+echo "Host: $(hostname 2>/dev/null || echo localhost)"
+EOF
+    chmod +x soluciones_demo/check_health.sh
+
 
 }
 
